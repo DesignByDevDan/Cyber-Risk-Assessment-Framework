@@ -195,100 +195,135 @@ function App() {
 
   return (
     <Box sx={{ padding: "20px", fontFamily: "Arial" }}>
-    {!token ? (
-      <Box>
-        <TextField 
-          label="Role" 
-          onChange={(e) => setRole(e.target.value)} 
-          sx={{ marginBottom: "10px" }} 
-        /> {/* During signup */}
-        <Typography variant="h5" gutterBottom>
-          Authentication
-        </Typography>
-        <TextField
-          label="Username"
-          variant="outlined"
-          fullWidth
-          sx={{ marginBottom: "10px" }}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <TextField
-          label="Password"
-          variant="outlined"
-          type="password"
-          fullWidth
-          sx={{ marginBottom: "10px" }}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ marginRight: "10px" }}
-          onClick={handleLogin}
-        >
-          Login
-        </Button>
-        <Button variant="outlined" color="secondary" onClick={handleSignup}>
-          Signup
-        </Button>
-      </Box>
-    ) : role === "admin" ? (
-      <Typography>Welcome, Admin!</Typography>
-    ) : (
-      <Typography>Welcome, User!</Typography>
-    )}
-    {token && (
-      <Box>
-        <Typography variant="h5" gutterBottom>
-          Welcome, {username || "User"}!
-        </Typography>
-        <Button variant="contained" color="error" onClick={handleLogout}>
-          Logout
-        </Button>
-  
-          {/* Risk Assessment Section */}
-          <Typography variant="h4" gutterBottom sx={{ marginTop: "20px" }}>
-            Risk Assessment Framework
+      {!token ? (
+        <Box>
+          <TextField
+            label="Role"
+            onChange={(e) => setRole(e.target.value)}
+            sx={{ marginBottom: "10px" }}
+          />
+          <Typography variant="h5" gutterBottom>
+            Authentication
           </Typography>
           <TextField
-            label="Enter Risk Factors (comma-separated)"
+            label="Username"
             variant="outlined"
             fullWidth
-            onChange={(e) => setRiskFactors(e.target.value)}
+            sx={{ marginBottom: "10px" }}
+            onChange={(e) => setUsername(e.target.value)}
           />
-          <Select
-            value={complianceType}
-            onChange={(e) => setComplianceType(e.target.value)}
+          <TextField
+            label="Password"
+            variant="outlined"
+            type="password"
             fullWidth
-            sx={{ marginTop: "10px" }}
-          >
-            <MenuItem value="ISO 27001">ISO 27001</MenuItem>
-            <MenuItem value="HIPAA">HIPAA</MenuItem>
-            <MenuItem value="PCI DSS">PCI DSS</MenuItem>
-          </Select>
+            sx={{ marginBottom: "10px" }}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <Button
             variant="contained"
             color="primary"
-            sx={{ marginTop: "10px" }}
-            onClick={handleRiskAssessment}
+            sx={{ marginRight: "10px" }}
+            onClick={handleLogin}
           >
-            Assess Risk
+            Login
           </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            sx={{ marginTop: "10px", marginLeft: "10px" }}
-            onClick={handleComplianceCheck}
+          <Button variant="outlined" color="secondary" onClick={handleSignup}>
+            Signup
+          </Button>
+        </Box>
+      ) : role === "admin" ? (
+        <Typography>Welcome, Admin!</Typography>
+      ) : (
+        <Typography>Welcome, User!</Typography>
+      )}
+      {token && (
+        <Box>
+          <Typography variant="h5" gutterBottom>
+            Welcome, {username || "User"}!
+          </Typography>
+          <Button variant="contained" color="error" onClick={handleLogout}>
+            Logout
+          </Button>
+  
+          {/* Risk Assessment Section */}
+          <Paper
+            elevation={3}
+            sx={{ margin: "20px auto", padding: "20px", maxWidth: "800px" }}
           >
-            Check Compliance
-          </Button>
+            <Typography
+              variant="h4"
+              gutterBottom
+              sx={{ textAlign: "center", color: "#2c3e50", fontWeight: "bold" }}
+            >
+              Risk Assessment Framework
+            </Typography>
+            <TextField
+              label="Enter Risk Factors (comma-separated)"
+              variant="outlined"
+              fullWidth
+              onChange={(e) => setRiskFactors(e.target.value)}
+              sx={{ marginBottom: "20px" }}
+            />
+            <Select
+              value={complianceType}
+              onChange={(e) => setComplianceType(e.target.value)}
+              fullWidth
+              sx={{ marginBottom: "20px", backgroundColor: "#f7f9fc" }}
+            >
+              <MenuItem value="ISO 27001">ISO 27001</MenuItem>
+              <MenuItem value="HIPAA">HIPAA</MenuItem>
+              <MenuItem value="PCI DSS">PCI DSS</MenuItem>
+            </Select>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#1e88e5",
+                  color: "#fff",
+                  fontWeight: "bold",
+                  padding: "10px 20px",
+                  "&:hover": { backgroundColor: "#1565c0" },
+                }}
+                onClick={handleRiskAssessment}
+              >
+                Assess Risk
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#8e44ad",
+                  color: "#fff",
+                  fontWeight: "bold",
+                  padding: "10px 20px",
+                  "&:hover": { backgroundColor: "#6c3483" },
+                }}
+                onClick={handleComplianceCheck}
+              >
+                Check Compliance
+              </Button>
+            </Box>
+          </Paper>
   
           {/* Risk Assessment Results */}
           {result && (
-            <Paper elevation={3} sx={{ marginTop: "20px", padding: "20px" }}>
-              <Typography variant="h5">Assessment Results</Typography>
-              <Typography>Risk Score: {result.risk_score}</Typography>
-              <Typography>Recommendations:</Typography>
+            <Paper
+              elevation={3}
+              sx={{ margin: "20px auto", padding: "20px", maxWidth: "800px" }}
+            >
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{ textAlign: "center", color: "#27ae60", fontWeight: "bold" }}
+              >
+                Assessment Results
+              </Typography>
+              <Typography sx={{ marginBottom: "10px" }}>
+                <strong>Risk Score:</strong> {result.risk_score}
+              </Typography>
+              <Typography>
+                <strong>Recommendations:</strong>
+              </Typography>
               <ul>
                 {result.recommendations.map((rec, index) => (
                   <li key={index}>{rec}</li>
@@ -296,12 +331,14 @@ function App() {
               </ul>
               <Bar
                 data={{
-                  labels: result.recommendations.map((_, index) => `Risk ${index + 1}`),
+                  labels: result.recommendations.map(
+                    (_, index) => `Risk ${index + 1}`
+                  ),
                   datasets: [
                     {
                       label: "Severity Levels",
-                      data: result.recommendations.map(() =>
-                        Math.floor(Math.random() * 10) + 1
+                      data: result.recommendations.map(
+                        () => Math.floor(Math.random() * 10) + 1
                       ),
                       backgroundColor: "rgba(75,192,192,0.6)",
                     },
@@ -309,9 +346,7 @@ function App() {
                 }}
                 options={{
                   responsive: true,
-                  plugins: {
-                    legend: { display: true },
-                  },
+                  plugins: { legend: { display: true } },
                 }}
               />
             </Paper>
@@ -319,10 +354,23 @@ function App() {
   
           {/* Compliance Results */}
           {complianceResult && (
-            <Paper elevation={3} sx={{ marginTop: "20px", padding: "20px" }}>
-              <Typography variant="h5">Compliance Results</Typography>
-              <Typography>Compliance Type: {complianceResult.compliance_type}</Typography>
-              <Typography>Non-Compliant Factors:</Typography>
+            <Paper
+              elevation={3}
+              sx={{ margin: "20px auto", padding: "20px", maxWidth: "800px" }}
+            >
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{ textAlign: "center", color: "#e74c3c", fontWeight: "bold" }}
+              >
+                Compliance Results
+              </Typography>
+              <Typography sx={{ marginBottom: "10px" }}>
+                <strong>Compliance Type:</strong> {complianceResult.compliance_type}
+              </Typography>
+              <Typography>
+                <strong>Non-Compliant Factors:</strong>
+              </Typography>
               <ul>
                 {complianceResult.non_compliant_factors.map((factor, index) => (
                   <li key={index}>{factor}</li>
@@ -395,7 +443,8 @@ function App() {
                   <ul>
                     {host.ports.map((port, portIndex) => (
                       <li key={portIndex}>
-                        Port: {port.port}, Service: {port.service}, State: {port.state}
+                        Port: {port.port}, Service: {port.service}, State:{" "}
+                        {port.state}
                       </li>
                     ))}
                   </ul>
@@ -429,7 +478,7 @@ function App() {
         </Box>
       )}
     </Box>
-  );  
+  );    
 }
 
 export default App;
