@@ -233,14 +233,14 @@ function App() {
           </Button>
         </Box>
       ) : role === "admin" ? (
-        <Typography>Welcome, Admin!</Typography>
+        <Typography>Welcome, Admin</Typography>
       ) : (
-        <Typography>Welcome, User!</Typography>
+        <Typography></Typography>
       )}
       {token && (
         <Box>
           <Typography variant="h5" gutterBottom>
-            Welcome, {username || "User"}!
+            Welcome, {username || "User"}
           </Typography>
           <Button variant="contained" color="error" onClick={handleLogout}>
             Logout
@@ -380,101 +380,149 @@ function App() {
           )}
   
           {/* Encryption/Decryption Section */}
-          <Divider sx={{ marginY: "20px" }} />
-          <Typography variant="h4" gutterBottom>
-            Real-Time Encryption/Decryption
-          </Typography>
-          <TextField
-            label="Plain Text"
-            variant="outlined"
-            fullWidth
-            sx={{ marginY: "10px" }}
-            onChange={(e) => setPlainText(e.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ marginRight: "10px" }}
-            onClick={handleEncrypt}
-          >
-            Encrypt
-          </Button>
-          <Typography variant="body1" sx={{ marginTop: "10px" }}>
-            Encrypted Text: {encryptedText}
-          </Typography>
-          <TextField
-            label="Encrypted Text"
-            variant="outlined"
-            fullWidth
-            sx={{ marginY: "10px" }}
-            value={encryptedText}
-            onChange={(e) => setEncryptedText(e.target.value)}
-          />
-          <Button variant="outlined" color="secondary" onClick={handleDecrypt}>
-            Decrypt
-          </Button>
-          <Typography variant="body1" sx={{ marginTop: "10px" }}>
-            Decrypted Text: {decryptedText}
-          </Typography>
-  
-          {/* Network Scanning Section */}
-          <Divider sx={{ marginY: "20px" }} />
-          <Typography variant="h4" gutterBottom>
-            Network Vulnerability Scanning
-          </Typography>
-          <TextField
-            label="Target IP or Range"
-            variant="outlined"
-            fullWidth
-            sx={{ marginY: "10px" }}
-            onChange={(e) => setScanTarget(e.target.value)}
-          />
-          <Button variant="contained" color="primary" onClick={handleNetworkScan}>
-            Scan Network
-          </Button>
-          {scanResults && (
-            <Paper elevation={3} sx={{ marginTop: "20px", padding: "20px" }}>
-              <Typography variant="h5">Scan Results</Typography>
-              {scanResults.map((host, index) => (
-                <Box key={index} sx={{ marginBottom: "20px" }}>
-                  <Typography variant="h6">Host: {host.host}</Typography>
-                  <Typography>Status: {host.status}</Typography>
-                  <Typography>Open Ports:</Typography>
-                  <ul>
-                    {host.ports.map((port, portIndex) => (
-                      <li key={portIndex}>
-                        Port: {port.port}, Service: {port.service}, State:{" "}
-                        {port.state}
-                      </li>
-                    ))}
-                  </ul>
+            <Paper
+              elevation={3}
+              sx={{ margin: "20px auto", padding: "20px", maxWidth: "800px" }}
+            >
+              <Typography
+                variant="h4"
+                gutterBottom
+                sx={{ textAlign: "center", color: "#2c3e50", fontWeight: "bold" }}
+              >
+                Real-Time Encryption/Decryption
+              </Typography>
+              <TextField
+                label="Plain Text"
+                variant="outlined"
+                fullWidth
+                sx={{ marginBottom: "20px" }}
+                onChange={(e) => setPlainText(e.target.value)}
+              />
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#1e88e5",
+                    color: "#fff",
+                    fontWeight: "bold",
+                    "&:hover": { backgroundColor: "#1565c0" },
+                  }}
+                  onClick={handleEncrypt}
+                >
+                  Encrypt
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#8e44ad",
+                    color: "#fff",
+                    fontWeight: "bold",
+                    "&:hover": { backgroundColor: "#6c3483" },
+                  }}
+                  onClick={handleDecrypt}
+                >
+                  Decrypt
+                </Button>
+              </Box>
+              <Typography variant="body1" sx={{ marginTop: "20px" }}>
+                <strong>Encrypted Text:</strong> {encryptedText}
+              </Typography>
+              <Typography variant="body1" sx={{ marginTop: "10px" }}>
+                <strong>Decrypted Text:</strong> {decryptedText}
+              </Typography>
+            </Paper>
+
+            {/* Network Scanning Section */}
+            <Paper
+              elevation={3}
+              sx={{ margin: "20px auto", padding: "20px", maxWidth: "800px" }}
+            >
+              <Typography
+                variant="h4"
+                gutterBottom
+                sx={{ textAlign: "center", color: "#2c3e50", fontWeight: "bold" }}
+              >
+                Network Vulnerability Scanning
+              </Typography>
+              <TextField
+                label="Target IP or Range"
+                variant="outlined"
+                fullWidth
+                sx={{ marginBottom: "20px" }}
+                onChange={(e) => setScanTarget(e.target.value)}
+              />
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#1e88e5",
+                  color: "#fff",
+                  fontWeight: "bold",
+                  "&:hover": { backgroundColor: "#1565c0" },
+                }}
+                onClick={handleNetworkScan}
+              >
+                Scan Network
+              </Button>
+              {scanResults && (
+                <Box sx={{ marginTop: "20px" }}>
+                  {scanResults.map((host, index) => (
+                    <Box key={index} sx={{ marginBottom: "20px" }}>
+                      <Typography variant="h6">
+                        <strong>Host:</strong> {host.host}
+                      </Typography>
+                      <Typography>
+                        <strong>Status:</strong> {host.status}
+                      </Typography>
+                      <Typography>
+                        <strong>Open Ports:</strong>
+                      </Typography>
+                      <ul>
+                        {host.ports.map((port, portIndex) => (
+                          <li key={portIndex}>
+                            Port: {port.port}, Service: {port.service}, State: {port.state}
+                          </li>
+                        ))}
+                      </ul>
+                    </Box>
+                  ))}
                 </Box>
-              ))}
+              )}
             </Paper>
-          )}
-  
-          {/* History Section */}
-          <Divider sx={{ marginY: "20px" }} />
-          <Typography variant="h4" gutterBottom>
-            History
-          </Typography>
-          {history.length > 0 ? (
-            <Paper elevation={3} sx={{ marginTop: "20px", padding: "20px" }}>
-              <ul>
-                {history.map((item, index) => (
-                  <li key={index}>
-                    {item.type === "assessment" ? (
-                      `Risk Score: ${item.risk_score}, Date: ${item.date}`
-                    ) : (
-                      `Scan Target: ${item.target}, Date: ${item.date}`
-                    )}
-                  </li>
-                ))}
-              </ul>
+
+            {/* History Section */}
+            <Paper
+              elevation={3}
+              sx={{ margin: "20px auto", padding: "20px", maxWidth: "800px" }}
+            >
+              <Typography
+                variant="h4"
+                gutterBottom
+                sx={{ textAlign: "center", color: "#2c3e50", fontWeight: "bold" }}
+              >
+                History
+              </Typography>
+              {history.length > 0 ? (
+                <ul>
+                  {history.map((item, index) => (
+                    <li key={index}>
+                      {item.type === "assessment" ? (
+                        <>
+                          Risk Score: {item.risk_score}, Date: {item.date}
+                        </>
+                      ) : (
+                        <>
+                          Scan Target: {item.target}, Date: {item.date}
+                        </>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <Typography sx={{ textAlign: "center", marginTop: "10px" }}>
+                  No history available.
+                </Typography>
+              )}
             </Paper>
-          ) : (
-            <Typography>No history available.</Typography>
-          )}
         </Box>
       )}
     </Box>

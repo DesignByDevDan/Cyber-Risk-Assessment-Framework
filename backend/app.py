@@ -13,8 +13,11 @@ import nmap
 app = Flask(__name__)
 
 # CORS configuration
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
-
+CORS(app, resources={r"/*": {
+    "origins": "http://localhost:3000",
+    "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "allow_headers": ["Content-Type", "Authorization"]
+}})
 # Dynamically generate a Fernet encryption key
 key = Fernet.generate_key()
 cipher_suite = Fernet(key)
